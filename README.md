@@ -5,9 +5,7 @@ just create a openai api key on .env.local
 `pnpm install`
 
 `pnpm dev`
-
 or
-
 `pnpm start`
 
 [http://localhost:3000](http://localhost:3000)
