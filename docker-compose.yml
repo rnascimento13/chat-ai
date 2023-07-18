@@ -1,19 +1,31 @@
 ---
 version: "3"
 services:
-  app: # simple chat with chatgpt
-    build: .
-      #context: ./
-      #target: PRODUCTION_STAGE
-    container_name: chat-ai
-    #volumes:
-      #- ./:/app
-      #- /app/node_modules
+  dev-app: # simple chat with chatgpt
+    build: 
+      context: ./
+      target: with_all_deps
+    container_name: chat-ai-dev
+    profiles: ["dev"]   
+    volumes:
+      - ./:/app
+      - /app/node_modules
     ports:
-      - "3000:3000"
+      - "3001:3000"
     environment:
       NODE_ENV: development
     restart: unless-stopped
-    stdin_open: true # docker run -i
-    tty: true        # docker run -t
-    #command: sh
+    #stdin_open: true # docker run -i
+    #tty: true        # docker run -t
+    command: pnpm dev
+  app: # simple chat with chatgpt
+    build: 
+      context: ./
+      target: runner
+    container_name: chat-ai
+    profiles: ["prod"]   
+    ports:
+      - "3000:3000"
+    environment:
+      NODE_ENV: production
+    restart: unless-stopped
